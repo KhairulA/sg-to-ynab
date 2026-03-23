@@ -1,12 +1,12 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
-  workflow_dispatch:
 
 permissions:
-  contents: read
   pages: write
   id-token: write
 
@@ -15,29 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: npm
-
-      - run: npm ci
-
-      - run: npm run build
-        env:
-          VITE_YNAB_CLIENT_ID: ${{ secrets.VITE_YNAB_CLIENT_ID }}
-          VITE_YNAB_REDIRECT_URI: https://khairula.github.io/sg-to-ynab/
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    needs: build
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
