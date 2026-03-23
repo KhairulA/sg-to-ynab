@@ -1,6 +1,7 @@
 # SG to YNAB
 
 [![CI](https://github.com/KhairulA/sg-to-ynab/actions/workflows/ci.yml/badge.svg)](https://github.com/KhairulA/sg-to-ynab/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/KhairulA/sg-to-ynab/graph/badge.svg)](https://codecov.io/gh/KhairulA/sg-to-ynab)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Client-Side Only](https://img.shields.io/badge/processing-client--side%20only-green.svg)](#privacy)
 [![No Backend](https://img.shields.io/badge/backend-none-brightgreen.svg)](#privacy)
