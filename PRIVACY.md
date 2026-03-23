@@ -1,10 +1,10 @@
 # Privacy Policy — SG to YNAB
 
-**Last updated:** 2025-01-01
+**Last updated:** 2026-03-23
 
 ## Summary
 
-SG to YNAB is a client-side web application. All PDF processing happens locally in your browser. No data is uploaded to any server except YNAB's official API (when you explicitly push transactions).
+SG to YNAB is a client-side web application. All PDF processing happens locally in your browser. No data is uploaded to any server except YNAB's official API (when you explicitly push transactions). The sole purpose of this application is to parse Singapore bank eStatement PDFs and import the extracted transactions into your YNAB budget.
 
 ## Data We Process
 
@@ -26,7 +26,27 @@ The following is saved in your browser's `localStorage` for convenience:
 - **Import history**: file names and transaction counts from past imports (no transaction details)
 - **Budget preference**: your selected YNAB budget ID
 
-You can clear this data at any time via your browser's developer tools or by clearing site data.
+This data persists across browser sessions until you delete it (see "Data Deletion" below).
+
+## Data Storage & Security
+
+This application has **no server or database**. It is a static site hosted on GitHub Pages.
+
+- **YNAB access token**: Held in JavaScript memory only. Never written to disk, localStorage, cookies, or any persistent storage. Automatically discarded when you close the tab or after 2-hour expiry.
+- **PDF content and parsed transactions**: Held in JavaScript memory only. Automatically discarded when you close the tab.
+- **Account mappings, import history, budget preference**: Stored in your browser's `localStorage` on your device only. Contains no transaction data, financial amounts, or personal information — only account IDs, file names, and counts.
+
+No data obtained through the YNAB API is stored persistently. All YNAB data (budgets, account names, transactions) exists only in browser memory for the duration of your session.
+
+## Third-Party Data Sharing
+
+**Data obtained through the YNAB API will not be passed to any third party.** The only network requests this application makes are:
+
+- **YNAB API** (`api.ynab.com`): To fetch your budgets and accounts, and to create transactions when you explicitly click "Push to YNAB". Subject to [YNAB's Privacy Policy](https://www.ynab.com/privacy-policy).
+- **cdnjs.cloudflare.com**: To load the PDF.js worker script (a JavaScript library for parsing PDFs). No user data is sent to this CDN.
+- **GitHub Pages** (`khairula.github.io`): Serves the static application files. GitHub may collect standard web server logs (IP address, user agent). No application data is sent to GitHub. See [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+
+Your YNAB data and bank statement data are never sold, shared, aggregated, or analyzed for any purpose other than importing transactions into your YNAB budget.
 
 ## Data We Do NOT Collect
 - No analytics or tracking scripts
@@ -34,14 +54,24 @@ You can clear this data at any time via your browser's developer tools or by cle
 - No server-side logging
 - No telemetry
 - No personal information
+- No financial account credentials (only OAuth access tokens obtained directly from YNAB)
 
-## Third Parties
-- **YNAB API** (`api.ynab.com`): Transaction data is sent here only when you explicitly push. Subject to [YNAB's Privacy Policy](https://www.ynab.com/privacy-policy).
-- **cdnjs.cloudflare.com**: PDF.js worker script is loaded from this CDN.
-- **GitHub Pages**: The app is hosted as a static site. GitHub may collect standard web server logs (IP address, user agent). See [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+## Data Deletion
+
+You can delete all locally stored data at any time by either:
+1. Clearing site data for this domain in your browser settings
+2. Opening your browser's Developer Tools → Application → Local Storage → deleting entries for this site
+
+Since no data is stored on any server, clearing your browser's local storage removes all data associated with this application.
+
+If you wish to revoke this application's access to your YNAB account, you can do so from your [YNAB Account Settings](https://app.ynab.com/settings) under "Authorized Applications".
+
+If you have any questions about your data or wish to request data deletion assistance, please contact us (see below).
 
 ## Open Source
+
 This application is fully open source. You can inspect all code at [github.com/KhairulA/sg-to-ynab](https://github.com/KhairulA/sg-to-ynab) to verify these claims.
 
 ## Contact
-For privacy questions, open an issue on the [GitHub repository](https://github.com/KhairulA/sg-to-ynab/issues).
+
+For privacy questions or data deletion requests, please open an issue on the [GitHub repository](https://github.com/KhairulA/sg-to-ynab/issues) or email the repository owner via their GitHub profile.
