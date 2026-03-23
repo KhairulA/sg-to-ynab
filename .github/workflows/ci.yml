@@ -33,7 +33,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    environment: github-pages
     steps:
       - uses: actions/checkout@v6
 
@@ -47,15 +46,19 @@ jobs:
       - run: npm run test:coverage
 
       - uses: codecov/codecov-action@v5
+        if: github.ref == 'refs/heads/main'
         with:
           files: coverage/lcov.info
           fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  build:
+  build-and-deploy:
     needs: [lint, test]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: github-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
 
@@ -74,15 +77,6 @@ jobs:
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
-        if: github.ref == 'refs/heads/main'
 
-  deploy:
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
