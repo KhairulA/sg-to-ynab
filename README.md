@@ -115,12 +115,14 @@ The project uses [Vitest](https://vitest.dev/) with [Testing Library](https://te
 
 ## CI/CD
 
-Two GitHub Actions workflows:
+Single GitHub Actions workflow (`.github/workflows/ci.yml`):
 
-| Workflow | Trigger | Jobs |
-|----------|---------|------|
-| **CI** | PR and push to `main` | Lint and test run in parallel; build runs after both pass |
-| **Deploy** | After CI succeeds on `main` | Deploy to GitHub Pages |
+| Job | Depends on | Runs on |
+|-----|-----------|---------|
+| **lint** | — | Every PR and push to `main` |
+| **test** | — | Every PR and push to `main` |
+| **build** | lint, test | After both quality gates pass |
+| **deploy** | build | Push to `main` only (GitHub Pages) |
 
 Coverage thresholds are enforced in CI — the build fails if coverage drops below the configured minimums.
 
