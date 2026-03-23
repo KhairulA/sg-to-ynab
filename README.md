@@ -1,8 +1,16 @@
 # SG to YNAB
 
+[![CI](https://github.com/KhairulA/sg-to-ynab/actions/workflows/ci.yml/badge.svg)](https://github.com/KhairulA/sg-to-ynab/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/KhairulA/sg-to-ynab/graph/badge.svg)](https://codecov.io/gh/KhairulA/sg-to-ynab)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Client-Side Only](https://img.shields.io/badge/processing-client--side%20only-green.svg)](#privacy)
+[![No Backend](https://img.shields.io/badge/backend-none-brightgreen.svg)](#privacy)
+
 Import Singapore bank eStatement PDFs into [YNAB](https://www.ynab.com/) (You Need A Budget).
 
 All processing happens locally in your browser. No data is uploaded to any server.
+
+**[Try it live →](https://khairula.github.io/sg-to-ynab/)**
 
 ## Supported Banks
 
@@ -73,7 +81,7 @@ The app uses OAuth **Implicit Grant** — no client secret is needed.
 
 ### Deployment (GitHub Pages)
 
-Set these **repository secrets** under Settings > Secrets and variables > Actions:
+Set these as **environment secrets** on the `github-pages` environment (Settings > Environments > github-pages > Environment secrets):
 
 | Secret | Description |
 |--------|-------------|
