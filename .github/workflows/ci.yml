@@ -51,7 +51,7 @@ jobs:
       - run: npm run build
         env:
           VITE_YNAB_CLIENT_ID: ${{ secrets.VITE_YNAB_CLIENT_ID }}
-          VITE_YNAB_REDIRECT_URI: https://khairula.github.io/sg-to-ynab/
+          VITE_YNAB_REDIRECT_URI: ${{ secrets.VITE_YNAB_REDIRECT_URI }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
