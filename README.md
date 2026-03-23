@@ -80,7 +80,7 @@ The app uses OAuth **Implicit Grant** — no client secret is needed.
 
 ### Deployment (GitHub Pages)
 
-Set these **repository secrets** under Settings > Secrets and variables > Actions:
+Set these as **environment secrets** on the `github-pages` environment (Settings > Environments > github-pages > Environment secrets):
 
 | Secret | Description |
 |--------|-------------|

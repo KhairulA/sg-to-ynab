@@ -48,6 +48,7 @@ jobs:
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - uses: actions/checkout@v6
 
