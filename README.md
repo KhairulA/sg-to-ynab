@@ -88,6 +88,7 @@ Set these as **environment secrets** on the `github-pages` environment (Settings
 |--------|-------------|
 | `VITE_YNAB_CLIENT_ID` | Your YNAB OAuth Client ID |
 | `VITE_YNAB_REDIRECT_URI` | Your production redirect URI (e.g. `https://<user>.github.io/sg-to-ynab/`) |
+| `CODECOV_TOKEN` | Token from [Codecov](https://codecov.io/) for coverage uploads (optional) |
 
 The CI/CD pipeline handles the rest — see below.
 
@@ -131,8 +132,7 @@ Single GitHub Actions workflow (`.github/workflows/ci.yml`):
 | **lint** | — | Every PR and push to `main` |
 | **typecheck** | — | Every PR and push to `main` |
 | **test** | — | Every PR and push to `main` |
-| **build-and-deploy** | lint, typecheck, test | After all quality gates pass |
-| **deploy** | build | Push to `main` only (GitHub Pages) |
+| **build-and-deploy** | lint, typecheck, test | Push to `main` only (builds, uploads coverage, deploys to GitHub Pages) |
 
 Coverage thresholds are enforced in CI — the build fails if coverage drops below the configured minimums.
 
@@ -143,6 +143,14 @@ Coverage thresholds are enforced in CI — the build fails if coverage drops bel
 - [TailwindCSS](https://tailwindcss.com/) for styling
 - [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/) for testing
 - [GitHub Pages](https://pages.github.com/) for hosting
+
+## Contributing
+
+1. Fork the repo and create a feature branch
+2. Make your changes — ensure `npm run lint`, `npm run typecheck`, and `npm test` all pass
+3. Open a PR against `main`
+
+To add a new bank parser, create a new file in `src/parsers/` implementing the `BankParser` interface and register it in `src/parsers/index.ts`. See `src/parsers/dbs.ts` for an example.
 
 ## Privacy
 
