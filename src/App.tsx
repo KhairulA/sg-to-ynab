@@ -49,11 +49,11 @@ export default function App() {
     created: 0, duplicates: 0, errors: [],
   })
 
-  // Extract token on mount
+  // Extract token on mount (one-time OAuth redirect handling)
   useEffect(() => {
     const tokenData = extractTokenFromHash()
     if (tokenData) {
-      setToken(tokenData.accessToken)
+      setToken(tokenData.accessToken) // eslint-disable-line react-hooks/set-state-in-effect
     }
   }, [])
 
@@ -81,50 +81,7 @@ export default function App() {
     listAccounts(token, selectedBudgetId).then(setYnabAccounts).catch(() => {})
   }, [token, selectedBudgetId])
 
-  const handleFilesSelected = useCallback(async (files: File[]) => {
-    const file = files[0]
-    if (!file) return
-
-    setCurrentFile(file)
-    setError('')
-    setAppState('parsing')
-
-    const buffer = await file.arrayBuffer()
-    setCurrentData(buffer)
-
-    try {
-      const pages = await extractPdfText(buffer)
-      processPages(pages, file.name)
-    } catch (err) {
-      if (isPasswordError(err)) {
-        setPasswordIncorrect(false)
-        setAppState('password')
-      } else {
-        setError(err instanceof Error ? err.message : 'Failed to parse PDF')
-        setAppState('error')
-      }
-    }
-  }, [])
-
-  const handlePassword = useCallback(async (password: string) => {
-    if (!currentData || !currentFile) return
-    setAppState('parsing')
-
-    try {
-      const pages = await extractPdfText(currentData, password)
-      processPages(pages, currentFile.name)
-    } catch (err) {
-      if (isPasswordError(err)) {
-        setPasswordIncorrect(isIncorrectPassword(err))
-        setAppState('password')
-      } else {
-        setError(err instanceof Error ? err.message : 'Failed to parse PDF')
-        setAppState('error')
-      }
-    }
-  }, [currentData, currentFile])
-
-  function processPages(pages: Awaited<ReturnType<typeof extractPdfText>>, fileName: string) {
+  const processPages = useCallback((pages: Awaited<ReturnType<typeof extractPdfText>>, fileName: string) => {
     const result = parseStatement(pages)
     if (!result) {
       setError(
@@ -161,7 +118,50 @@ export default function App() {
     setTransactionRows(rowMap)
     setAccountMappings(mappingMap)
     setAppState('preview')
-  }
+  }, [])
+
+  const handleFilesSelected = useCallback(async (files: File[]) => {
+    const file = files[0]
+    if (!file) return
+
+    setCurrentFile(file)
+    setError('')
+    setAppState('parsing')
+
+    const buffer = await file.arrayBuffer()
+    setCurrentData(buffer)
+
+    try {
+      const pages = await extractPdfText(buffer)
+      processPages(pages, file.name)
+    } catch (err) {
+      if (isPasswordError(err)) {
+        setPasswordIncorrect(false)
+        setAppState('password')
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to parse PDF')
+        setAppState('error')
+      }
+    }
+  }, [processPages])
+
+  const handlePassword = useCallback(async (password: string) => {
+    if (!currentData || !currentFile) return
+    setAppState('parsing')
+
+    try {
+      const pages = await extractPdfText(currentData, password)
+      processPages(pages, currentFile.name)
+    } catch (err) {
+      if (isPasswordError(err)) {
+        setPasswordIncorrect(isIncorrectPassword(err))
+        setAppState('password')
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to parse PDF')
+        setAppState('error')
+      }
+    }
+  }, [currentData, currentFile, processPages])
 
   const handleToggle = useCallback((sectionKey: string, id: string) => {
     setTransactionRows(prev => {

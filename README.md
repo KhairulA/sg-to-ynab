@@ -31,9 +31,34 @@ cp .env.example .env
 # Start dev server
 npm run dev
 
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
 # Build for production
 npm run build
 ```
+
+### Testing
+
+The project uses [Vitest](https://vitest.dev/) with [Testing Library](https://testing-library.com/) for comprehensive test coverage.
+
+- **235 tests** across 19 test files
+- **V8 coverage** with enforced thresholds (95% statements/lines/functions, 85% branches)
+- Unit tests for parsers, utilities, and YNAB client
+- Component tests for all React components
+- Integration tests for the full App flow (upload, parse, push)
+
+### CI/CD
+
+- **CI workflow** runs lint + test in parallel on every PR and push to `main`
+- Build only runs after both quality gates pass
+- **Deploy workflow** triggers after CI succeeds on `main`, deploying to GitHub Pages
 
 ### YNAB OAuth Setup
 
@@ -44,7 +69,7 @@ npm run build
 
 ## Tech Stack
 
-- React 18 + TypeScript + Vite
+- React 19 + TypeScript + Vite
 - PDF.js (`pdfjs-dist`) for positional text extraction
 - TailwindCSS for styling
 - GitHub Pages for hosting
