@@ -61,6 +61,7 @@ npm run dev
 |--------|-------------|
 | `npm run dev` | Start Vite dev server |
 | `npm run build` | Type-check and build for production |
+| `npm run typecheck` | Run TypeScript type checking only |
 | `npm run lint` | Lint with ESLint |
 | `npm test` | Run tests once |
 | `npm run test:watch` | Run tests in watch mode |
@@ -128,8 +129,9 @@ Single GitHub Actions workflow (`.github/workflows/ci.yml`):
 | Job | Depends on | Runs on |
 |-----|-----------|---------|
 | **lint** | — | Every PR and push to `main` |
+| **typecheck** | — | Every PR and push to `main` |
 | **test** | — | Every PR and push to `main` |
-| **build** | lint, test | After both quality gates pass |
+| **build-and-deploy** | lint, typecheck, test | After all quality gates pass |
 | **deploy** | build | Push to `main` only (GitHub Pages) |
 
 Coverage thresholds are enforced in CI — the build fails if coverage drops below the configured minimums.
